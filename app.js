@@ -65,11 +65,13 @@ const store = {
 const start = () => {
   $('header h1').append('<button class="start">Start</button>');
   handleStart();
+  
 }
 
 const handleStart = () => {
   $('header').on("click", ".start", (e) => {
-  $('header').hide(); 
+  $('header').hide();
+  $('main').show();
     displayQuestion()
     handleNext()
   })
@@ -79,7 +81,7 @@ const handleStart = () => {
 const displayQuestion = () => {
   console.log(store.questions[0]);
   const html = `
-  <h1>${store.questions[0].question}</h1>
+  <h1>${store.questions[store.questionNumber].question}</h1>
   <button class="next">Next</button>
   `
   $('main').html(html)
@@ -87,9 +89,39 @@ const displayQuestion = () => {
 
 const handleNext = () => {
   $('main').on("click", ".next", () =>{
+    store.questionNumber+=1
     console.log("click");
+    if(store.questionNumber === store.questions.length){
+        displayFinal();
+        handleRestart();
+    }else {
+      displayQuestion();
+      
+    }
   })
 }
+
+const displayFinal = () => {
+  const final = `
+  <h1>final</h1>
+  <button class="restart">Restart Quiz</button>
+  `
+  $('main').html(final)
+}
+
+const restartQuiz = () => {
+  $('main').hide();
+  $('header').show();
+  store.questionNumber = 0;
+  start();
+}
+
+const handleRestart = () => {
+  $('main').on("click", ".restart", () => {
+    restartQuiz();
+  })
+}
+
 $(start)
 
 /**
