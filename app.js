@@ -5,30 +5,92 @@ const store = {
   // 5 or more questions are required
   questions: [
     {
-      question: 'What color is broccoli?',
+      question: 'What year did the Titanic sink?',
       answers: [
-        'red',
-        'orange',
-        'pink',
-        'green'
+        '1962',
+        '1831',
+        '1925',
+        '1912'
       ],
-      correctAnswer: 'green'
+      correctAnswer: '1912'
     },
     {
-      question: 'What is the current year?',
+      question: 'What was Netflix’s net worth in 2019?',
       answers: [
-        '1970',
-        '2015',
-        '2019',
-        '2005'
+        '$588 million',
+        '$783 million',
+        '$125 billion',
+        '$16.3 billion', 
       ],
-      correctAnswer: '2019'
-    }
+      correctAnswer: '$125 billion'
+    }, 
+    {
+      question: 'In the first ever Power Rangers movie released in 1995, what were the colors of the Rangers?',
+      answers: [
+        'White, Black, Blue, Red, Green, Purple',
+        'Black, Red, Green, Orange, Pink, Yellow', 
+        'Red, White, Blue, Yellow, Silver, Green',
+        'White, Black, Blue, Yellow, Pink, Red', 
+      ], 
+      correctAnswer: 'White, Black, Blue, Yellow, Pink, Red'
+  }, 
+  {
+    question: 'What streaming platforms and/or entertainment franchises are on Disney Plus?',
+    answers: [
+      'Disney and Hulu',
+      'Disney, Marvel, Pixar, and Hulu', 
+      'Disney, Pixar, and Star Wars',
+      'None of the above', 
+    ], 
+    correctAnswer: 'None of the above'
+},
+{
+  question: 'Who tripped on stage when receiving the Oscars Award in 2019?',
+  answers: [
+    'Lady Gaga',
+    'Jennifer Lawrence', 
+    'Emma Stone',
+    'Jason DeRulo', 
+  ], 
+  correctAnswer: 'Jennifer Lawrence'
+},
+
+
   ],
   quizStarted: false,
   questionNumber: 0,
   score: 0
 };
+
+const start = () => {
+  $('header h1').append('<button class="start">Start</button>');
+  handleStart();
+}
+
+const handleStart = () => {
+  $('header').on("click", ".start", (e) => {
+  $('header').hide(); 
+    displayQuestion()
+    handleNext()
+  })
+
+}
+
+const displayQuestion = () => {
+  console.log(store.questions[0]);
+  const html = `
+  <h1>${store.questions[0].question}</h1>
+  <button class="next">Next</button>
+  `
+  $('main').html(html)
+}
+
+const handleNext = () => {
+  $('main').on("click", ".next", () =>{
+    console.log("click");
+  })
+}
+$(start)
 
 /**
  * 
