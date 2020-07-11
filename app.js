@@ -5,6 +5,7 @@ const store = {
   // 5 or more questions are required
   questions: [
     {
+<<<<<<< HEAD
       question: 'What year did the Titanic sink?',
       answers: [
         '1962',
@@ -56,6 +57,27 @@ const store = {
 },
 
 
+=======
+      question: 'What color is broccoli?',
+      answers: [
+        'red',
+        'orange',
+        'pink',
+        'green'
+      ],
+      correctAnswer: 'green'
+    },
+    {
+      question: 'What is the current year?',
+      answers: [
+        '1970',
+        '2015',
+        '2019',
+        '2005'
+      ],
+      correctAnswer: '2019'
+    }
+>>>>>>> da4411e4a4598fa8ccffb286151d5630b6aef76c
   ],
   quizStarted: false,
   questionNumber: 0,
