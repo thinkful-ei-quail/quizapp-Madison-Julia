@@ -63,47 +63,66 @@ const store = {
 };
 
 const start = () => {
-  $('header h1').append('<button class="start">Start</button>');
+  $('header').html(
+    `<h1>Test Your Entertainment Knowledge!</h1>
+    <button class="start">Start</button>`
+    );
   handleStart();
   
 }
 
 const handleStart = () => {
-  $('header').on("click", ".start", (e) => {
+  $('header').off().on("click", ".start", (e) => {
   $('header').hide();
   $('main').show();
+    addScoreboard();
+    updateScoreboard();
     displayQuestion()
+    answerQuestion()
     handleNext()
+    handleAnswerClicks();
   })
 
 }
 
 const displayQuestion = () => {
-  console.log(store.questions[0]);
+  let question = store.questions[store.questionNumber].question;
+  let answers = store.questions[store.questionNumber].answers;
   const html = `
-  <h1>${store.questions[store.questionNumber].question}</h1>
-  <button class="next">Next</button>
+  <h1>${question}</h1>
+  <form>
+    <input required type="radio" id="question1" name="question" value="${answers[0]}">
+    <label for="question1">${answers[0]}</label><br>
+    <input required type="radio" id="question2" name="question" value="${answers[1]}">
+    <label for="question2">${answers[1]}</label><br>
+    <input required type="radio" id="question3" name="question" value="${answers[2]}">
+    <label for="question3">${answers[2]}</label><br>
+    <input required type="radio" id="question4" name="question" value="${answers[3]}">
+    <label for="question4">${answers[3]}</label><br>
+    <button type="submit" class="next">Next</button>
+  </form>
   `
   $('main').html(html)
 }
 
 const handleNext = () => {
-  $('main').on("click", ".next", () =>{
+  $('main').off().on("submit", "form", () =>{
     store.questionNumber+=1
-    console.log("click");
     if(store.questionNumber === store.questions.length){
         displayFinal();
         handleRestart();
     }else {
+      updateScoreboard();
       displayQuestion();
-      
+      answerQuestion();
     }
   })
 }
 
 const displayFinal = () => {
+  $('.scoreboard').remove();
   const final = `
-  <h1>final</h1>
+  <h1>${store.score}/${store.questions.length}</h1>
   <button class="restart">Restart Quiz</button>
   `
   $('main').html(final)
@@ -112,7 +131,9 @@ const displayFinal = () => {
 const restartQuiz = () => {
   $('main').hide();
   $('header').show();
+
   store.questionNumber = 0;
+  store.score = 0;
   start();
 }
 
@@ -122,7 +143,48 @@ const handleRestart = () => {
   })
 }
 
+const answerQuestion = () => {
+  let currentQuestion = store.questions[store.questionNumber];
+  $('form').on('click', 'input', (e) => {
+    if($(e.currentTarget).val() === currentQuestion.correctAnswer) {
+      $(e.currentTarget).next().after('<p class="correct">Correct!</p>')
+      store.score++
+    }else {
+        $(e.currentTarget).next().after(`<p class="incorrect">Incorrect - ${currentQuestion.correctAnswer}</p>`)
+    }
+    $('input[type="radio"]').attr('disabled', true);
+    updateScoreboard();
+  })
+}
+
+const updateScoreboard = () => {
+  const html = `
+    <p>Score: ${store.score}</p>
+    <p>${store.questionNumber+1}/${store.questions.length}</p>
+  `
+  $('.scoreboard').html(html);
+}
+
+const addScoreboard = () => {
+  $('main').after(`<section class="scoreboard"></section>`)
+}
+
+const handleAnswerClicks = () => {
+  $('form').on('keypress', e => {
+    const targetButton = $(e.currentTarget);
+    const otherButtons = $('radio').not(targetButton);
+    const pressedButton = $(targetButton).attr('aria-pressed') === 'true';
+    otherButtons.removeClass('button-on').attr('aria-pressed', false);
+    targetButton.toggleClass('button-on').attr('aria-pressed', !pressedButton);
+    
+  });
+}
+
+$(handleAnswerClicks);
+
 $(start)
+
+
 
 /**
  * 

@@ -6,3 +6,43 @@
   * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
   *
 */
+@import url('https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@500&display=swap');
+
+
+body {
+  text-align: center;
+} 
+
+h1 {
+  font-family: 'Grenze Gotisch';
+  color: #E5B104;
+
+}
+
+html {
+  background-color: #AE032D;
+}
+
+main {
+  color: white;
+}
+
+p {
+  color: white;
+}
+
+ /* header {
+  display: flex;
+}  */
+
+.correct {
+  color: white;
+}
+
+.incorrect {
+  color: white;
+}
+
+@media all and (min-width: 800px) {
+
+};
